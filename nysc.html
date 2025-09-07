@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYSC Portal - Nigeria</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e2f0e8 0%, #c5e1f6 100%);
+            min-height: 100vh;
+        }
+        
+        .nysc-green {
+            background-color: #4CAF50;
+        }
+        
+        .nysc-white {
+            background-color: #FFFFFF;
+        }
+        
+        .nysc-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .nysc-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-nysc {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-nysc:hover {
+            background: #3d8b40;
+            transform: translateY(-2px);
+        }
+        
+        .header-logo {
+            height: 60px;
+            margin-right: 15px;
+        }
+        
+        .coa-logo {
+            height: 60px;
+            margin-left: 15px;
+        }
+        
+        .stats-card {
+            background: linear-gradient(135deg, #4CAF50 0%, #3d8b40 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .nav-item {
+            padding: 12px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background: #e8f5e9;
+            color: #4CAF50;
+        }
+        
+        .login-container {
+            background: url('https://nysc.gov.ng/images/slides/1.jpg') no-repeat center center;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .login-overlay {
+            background: rgba(76, 175, 80, 0.85);
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .login-form {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        }
+        
+        .table-row:hover {
+            background-color: #f1f8e9;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+        <div class="login-overlay">
+            <div class="login-form">
+                <div class="text-center mb-8">
+                    <div class="flex items-center justify-center mb-6">
+                        <img src="https://nysc.gov.ng/images/nysc_logo.png" alt="NYSC Logo" class="header-logo">
+                        <h1 class="text-3xl font-bold text-gray-800">NYSC Portal</h1>
+                        <img src="https://nysc.gov.ng/images/coa_logo.png" alt="Coat of Arms" class="coa-logo">
+                    </div>
+                    <p class="text-gray-600">National Youth Service Corps</p>
+                    <p class="text-gray-600">Portal for Prospective Corps Members</p>
+                </div>
+                
+                <div class="flex border-b border-gray-200 mb-6">
+                    <button id="studentLoginTab" class="py-3 px-6 font-medium transition-all duration-300 text-blue-600 border-b-2 border-blue-600">
+                        Student Login
+                    </button>
+                    <button id="adminLoginTab" class="py-3 px-6 font-medium transition-all duration-300 text-gray-500 hover:text-gray-700">
+                        Admin Login
+                    </button>
+                </div>
+                
+                <form id="studentLoginForm" class="mb-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Student Login</h2>
+                    <input type="email" placeholder="Email Address" class="form-input" required>
+                    <input type="password" placeholder="Password" class="form-input" required>
+                    <button type="submit" class="btn-nysc w-full">Login</button>
+                    <p class="text-center mt-4 text-gray-600">
+                        Don't have an account? <a href="#" id="showStudentRegister" class="text-green-600 hover:underline">Register here</a>
+                    </p>
+                </form>
+                
+                <form id="adminLoginForm" class="mb-6 hidden">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Admin Login</h2>
+                    <input type="text" placeholder="Admin ID" class="form-input" required>
+                    <input type="password" placeholder="Password" class="form-input" required>
+                    <button type="submit" class="btn-nysc w-full">Login</button>
+                </form>
+                
+                <form id="studentRegisterForm" class="mb-6 hidden">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Student Registration</h2>
+                    <input type="text" placeholder="Full Name" class="form-input" required>
+                    <input type="email" placeholder="Email Address" class="form-input" required>
+                    <input type="password" placeholder="Password" class="form-input" required>
+                    <select class="form-input" required>
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                    <input type="text" placeholder="Institution" class="form-input" required>
+                    <select class="form-input" required>
+                        <option value="">Select State of Origin</option>
+                        <option value="Lagos">Lagos</option>
+                        <option value="Kano">Kano</option>
+                        <option value="Abia">Abia</option>
+                        <option value="Rivers">Rivers</option>
+                    </select>
+                    <input type="text" placeholder="Discipline" class="form-input" required>
+                    <button type="submit" class="btn-nysc w-full">Register</button>
+                    <p class="text-center mt-4 text-gray-600">
+                        Already have an account? <a href="#" id="showStudentLogin" class="text-green-600 hover:underline">Login here</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminDashboard" class="hidden min-h-screen bg-gray-100 pb-16">
+        <header class="nysc-green text-white shadow-md">
+            <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+                <div class="flex items-center">
+                    <img src="https://nysc.gov.ng/images/nysc_logo.png" alt="NYSC Logo" class="header-logo">
+                    <div>
+                        <h1 class="text-xl font-bold">NYSC Admin Portal</h1>
+                        <p class="text-sm">National Youth Service Corps</p>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <span class="mr-4">Admin User</span>
+                    <button onclick="logout()" class="bg-white text-green-700 py-2 px-4 rounded-lg font-semibold hover:bg-gray-100">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row gap-6">
+                <!-- Sidebar Navigation -->
+                <div class="bg-white rounded-2xl shadow-md p-6 md:w-1/4">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6">Admin Dashboard</h2>
+                    <div class="space-y-2">
+                        <div class="nav-item active" onclick="changeAdminTab('students')">
+                            <i class="fas fa-users mr-3"></i> Students
+                        </div>
+                        <div class="nav-item" onclick="changeAdminTab('postings')">
+                            <i class="fas fa-map-marker-alt mr-3"></i> Postings
+                        </div>
+                        <div class="nav-item" onclick="changeAdminTab('statistics')">
+                            <i class="fas fa-chart-bar mr-3"></i> Statistics
+                        </div>
+                        <div class="nav-item" onclick="changeAdminTab('callup')">
+                            <i class="fas fa-file-alt mr-3"></i> Call-up Letters
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="bg-white rounded-2xl shadow-md p-6 md:w-3/4">
+                    <!-- Students Tab -->
+                    <div id="adminStudentsTab">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-bold text-gray-800">Student Management</h2>
+                            <button class="btn-nysc">
+                                <i class="fas fa-plus mr-2"></i> Add Student
+                            </button>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Institution</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">State of Origin</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assigned State</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr class="table-row">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">Adebola Johnson</div>
+                                            <div class="text-sm text-gray-500">Male</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">University of Lagos</div>
+                                            <div class="text-sm text-gray-500">Computer Science</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            Lagos
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                Borno
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
+                                            <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">Chinedu Okoro</div>
+                                            <div class="text-sm text-gray-500">Male</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">University of Ibadan</div>
+                                            <div class="text-sm text-gray-500">Microbiology</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            Abia
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                Sokoto
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
+                                            <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">Funke Adeyemi</div>
+                                            <div class="text-sm text-gray-500">Female</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">Obafemi Awolowo University</div>
+                                            <div class="text-sm text-gray-500">Law</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            Ogun
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                                Pending
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
+                                            <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Postings Tab -->
+                    <div id="adminPostingsTab" class="hidden">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Posting Management</h2>
+                        
+                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                            <p class="text-blue-700">Process NYSC postings for all unassigned students. This will randomly assign students to states different from their state of origin.</p>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-6 bg-gray-50 rounded-xl mb-6">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">Process Postings</h3>
+                                <p class="text-gray-600">3 students are awaiting assignment</p>
+                            </div>
+                            <button class="btn-nysc">
+                                <i class="fas fa-cogs mr-2"></i> Process Now
+                            </button>
+                        </div>
+                        
+                        <div class="bg-red-50 border-l-4 border-red-500 p-4">
+                            <p class="text-red-700">Warning: This action will reset all existing assignments and process new ones for all unassigned students.</p>
+                            <button class="mt-3 bg-red-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-700">
+                                <i class="fas fa-trash-alt mr-2"></i> Reset All Assignments
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Statistics Tab -->
+                    <div id="adminStatisticsTab" class="hidden">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Posting Statistics</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                            <div class="stats-card">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="text-sm">Total Students</p>
+                                        <h3 class="text-3xl font-bold">152</h3>
+                                    </div>
+                                    <i class="fas fa-users text-3xl opacity-75"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="stats-card">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="text-sm">Assigned Students</p>
+                                        <h3 class="text-3xl font-bold">149</h3>
+                                    </div>
+                                    <i class="fas fa-check-circle text-3xl opacity-75"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="stats-card">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="text-sm">Pending Assignment</p>
+                                        <h3 class="text-3xl font-bold">3</h3>
+                                    </div>
+                                    <i class="fas fa-clock text-3xl opacity-75"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-white p-6 rounded-xl shadow-md">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Students by Region</h3>
+                                <div class="space-y-3">
+                                    <div>
+                                        <div class="flex justify-between mb-1">
+                                            <span>North Central</span>
+                                            <span>25 students</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2">
+                                            <div class="bg-green-600 h-2 rounded-full" style="width: 25%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between mb-1">
+                                            <span>North East</span>
+                                            <span>18 students</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2">
+                                            <div class="bg-green-600 h-2 rounded-full" style="width: 18%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between mb-1">
+                                            <span>North West</span>
+                                            <span>22 students</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2">
+                                            <div class="bg-green-600 h-2 rounded-full" style="width: 22%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between mb-1">
+                                            <span>South East</span>
+                                            <span>20 students</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2">
+                                            <div class="bg-green-600 h-2 rounded-full" style="width: 20%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between mb-1">
+                                            <span>South South</span>
+                                            <span>28 students</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2">
+                                            <div class="bg-green-600 h-2 rounded-full" style="width: 28%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between mb-1">
+                                            <span>South West</span>
+                                            <span>36 students</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2">
+                                            <div class="bg-green-600 h-2 rounded-full" style="width: 36%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white p-6 rounded-xl shadow-md">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Gender Distribution</h3>
+                                <div class="flex items-center justify-center">
+                                    <div class="relative" style="width: 200px; height: 200px;">
+                                        <div class="absolute inset-0 flex items-center justify-center">
+                                            <div class="text-center">
+                                                <div class="text-2xl font-bold">152</div>
+                                                <div class="text-sm text-gray-600">Total</div>
+                                            </div>
+                                        </div>
+                                        <svg class="w-full h-full" viewBox="0 0 100 100">
+                                            <circle class="text-gray-200 stroke-current" stroke-width="10" cx="50" cy="50" r="40" fill="transparent"></circle>
+                                            <circle class="text-green-600 stroke-current" stroke-width="10" stroke-dasharray="60, 100" cx="50" cy="50" r="40" fill="transparent" transform="rotate(-90 50 50)"></circle>
+                                            <circle class="text-green-400 stroke-current" stroke-width="10" stroke-dasharray="40, 100" cx="50" cy="50" r="40" fill="transparent" stroke-dashoffset="60" transform="rotate(-90 50 50)"></circle>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="flex justify-center mt-4 space-x-6">
+                                    <div class="flex items-center">
+                                        <div class="w-4 h-4 bg-green-600 rounded mr-2"></div>
+                                        <span>Male: 92 (60%)</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-4 h-4 bg-green-400 rounded mr-2"></div>
+                                        <span>Female: 60 (40%)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Call-up Letters Tab -->
+                    <div id="adminCallupTab" class="hidden">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Call-up Letters</h2>
+                        
+                        <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Generate Call-up Letter</h3>
+                            <div class="flex flex-col md:flex-row md:items-end space-y-4 md:space-y-0 md:space-x-4">
+                                <div class="flex-1">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Select Student</label>
+                                    <select class="form-input">
+                                        <option value="">Choose a student</option>
+                                        <option value="1">Adebola Johnson (UNILAG)</option>
+                                        <option value="2">Chinedu Okoro (UI)</option>
+                                        <option value="3">Funke Adeyemi (OAU)</option>
+                                    </select>
+                                </div>
+                                <button class="btn-nysc">
+                                    <i class="fas fa-file-download mr-2"></i> Generate Letter
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Recent Call-up Letters</h3>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student Name</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assigned State</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Generated On</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        <tr class="table-row">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm font-medium text-gray-900">Adebola Johnson</div>
+                                                <div class="text-sm text-gray-500">UNILAG</div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                Borno State
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                12 Aug, 2023
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                <a href="#" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
+                                                <a href="#" class="text-green-600 hover:text-green-900">Download</a>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-row">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm font-medium text-gray-900">Chinedu Okoro</div>
+                                                <div class="text-sm text-gray-500">UI</div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                Sokoto State
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                11 Aug, 2023
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                <a href="#" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
+                                                <a href="#" class="text-green-600 hover:text-green-900">Download</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Dashboard -->
+    <div id="studentDashboard" class="hidden min-h-screen bg-gray-100 pb-16">
+        <header class="nysc-green text-white shadow-md">
+            <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+                <div class="flex items-center">
+                    <img src="https://nysc.gov.ng/images/nysc_logo.png" alt="NYSC Logo" class="header-logo">
+                    <div>
+                        <h1 class="text-xl font-bold">NYSC Student Portal</h1>
+                        <p class="text-sm">National Youth Service Corps</p>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <span class="mr-4">Adebola Johnson</span>
+                    <button onclick="logout()" class="bg-white text-green-700 py-2 px-4 rounded-lg font-semibold hover:bg-gray-100">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row gap-6">
+                <!-- Sidebar Navigation -->
+                <div class="bg-white rounded-2xl shadow-md p-6 md:w-1/4">
+                    <div class="text-center mb-6">
+                        <div class="w-24 h-24 bg-green-100 rounded-full mx-auto flex items-center justify-center mb-3">
+                            <i class="fas fa-user text-4xl text-green-600"></i>
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-800">Adebola Johnson</h2>
+                        <p class="text-gray-600">PCM/2023/123456</p>
+                        <p class="text-gray-600">University of Lagos</p>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <div class="nav-item active" onclick="changeStudentTab('profile')">
+                            <i class="fas fa-user mr-3"></i> Profile
+                        </div>
+                        <div class="nav-item" onclick="changeStudentTab('posting')">
+                            <i class="fas fa-map-marker-alt mr-3"></i> Posting Details
+                        </div>
+                        <div class="nav-item" onclick="changeStudentTab('callup')">
+                            <i class="fas fa-file-alt mr-3"></i> Call-up Letter
+                        </div>
+                        <div class="nav-item" onclick="changeStudentTab('resources')">
+                            <i class="fas fa-book mr-3"></i> Resources
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="bg-white rounded-2xl shadow-md p-6 md:w-3/4">
+                    <!-- Profile Tab -->
+                    <div id="studentProfileTab">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">My Profile</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                            <div class="bg-gray-50 p-6 rounded-xl">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Personal Information</h3>
+                                <div class="space-y-3">
+                                    <div>
+                                        <p class="text-sm text-gray-500">Full Name</p>
+                                        <p class="font-medium">Adebola Johnson</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500">Gender</p>
+                                        <p class="font-medium">Male</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500">State of Origin</p>
+                                        <p class="font-medium">Lagos State</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500">Email</p>
+                                        <p class="font-medium">adebola.johnson@example.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gray-50 p-6 rounded-xl">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Academic Information</h3>
+                                <div class="space-y-3">
+                                    <div>
+                                        <p class="text-sm text-gray-500">Institution</p>
+                                        <p class="font-medium">University of Lagos</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500">Discipline</p>
+                                        <p class="font-medium">Computer Science</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500">Graduation Year</p>
+                                        <p class="font-medium">2023</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500">Degree</p>
+                                        <p class="font-medium">Bachelor of Science (B.Sc)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+                            <p class="text-blue-700">Ensure your information is accurate. Contact support if you need to update any details.</p>
+                        </div>
+                    </div>
+
+                    <!-- Posting Details Tab -->
+                    <div id="studentPostingTab" class="hidden">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Posting Details</h2>
+                        
+                        <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-6">
+                            <p class="text-green-700">Congratulations! You have been posted to Borno State for your National Youth Service.</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                            <div class="bg-white border border-gray-200 p-6 rounded-xl">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Assignment Details</h3>
+                                <div class="space-y-3">
+                                    <div>
+                                        <p class="text-sm text-gray-500">Assigned State</p>
+                                        <p class="font-medium">Borno State</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500">Region</p>
+                                        <p class="font-medium">North East</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500">Assignment Date</p>
+                                        <p class="font-medium">August 12, 2023</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500">Status</p>
+                                        <p class="font-medium"><span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Posted</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white border border-gray-200 p-6 rounded-xl">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Orientation Camp Information</h3>
+                                <div class="space-y-3">
+                                    <div>
+                                        <p class="text-sm text-gray-500">Camp Address</p>
+                                        <p class="font-medium">NYSC Permanent Orientation Camp, Borno State</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500">Reporting Date</p>
+                                        <p class="font-medium">September 5, 2023</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500">Camp Director</p>
+                                        <p class="font-medium">Mr. Abdullahi Mohammed</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500">Contact</p>
+                                        <p class="font-medium">08012345678</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4">
+                            <p class="text-yellow-700">Please note: You are expected to report to the orientation camp on or before the reporting date with all required documents.</p>
+                        </div>
+                    </div>
+
+                    <!-- Call-up Letter Tab -->
+                    <div id="studentCallupTab" class="hidden">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Call-up Letter</h2>
+                        
+                        <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                            <div class="text-center py-8">
+                                <i class="fas fa-file-pdf text-5xl text-red-500 mb-4"></i>
+                                <h3 class="text-xl font-semibold text-gray-800 mb-2">Your Call-up Letter is Ready</h3>
+                                <p class="text-gray-600 mb-6">Download your call-up letter for printing and presentation at the orientation camp</p>
+                                <button class="btn-nysc">
+                                    <i class="fas fa-file-download mr-2"></i> Download Call-up Letter
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+                            <p class="text-blue-700">Important: You must present the original copy of your call-up letter at the orientation camp along with other required documents.</p>
+                        </div>
+                    </div>
+
+                    <!-- Resources Tab -->
+                    <div id="studentResourcesTab" class="hidden">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">NYSC Resources</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-white border border-gray-200 p-6 rounded-xl">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Preparation Guide</h3>
+                                <p class="text-gray-600 mb-4">Essential information to help you prepare for the orientation camp</p>
+                                <button class="btn-nysc">
+                                    <i class="fas fa-download mr-2"></i> Download Guide
+                                </button>
+                            </div>
+                            
+                            <div class="bg-white border border-gray-200 p-6 rounded-xl">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Required Documents</h3>
+                                <p class="text-gray-600 mb-4">List of documents you need to bring to the orientation camp</p>
+                                <button class="btn-nysc">
+                                    <i class="fas fa-list mr-2"></i> View Documents
+                                </button>
+                            </div>
+                            
+                            <div class="bg-white border border-gray-200 p-6 rounded-xl">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Camp Activities</h3>
+                                <p class="text-gray-600 mb-4">Overview of activities during the 3-week orientation course</p>
+                                <button class="btn-nysc">
+                                    <i class="fas fa-info-circle mr-2"></i> Learn More
+                                </button>
+                            </div>
+                            
+                            <div class="bg-white border border-gray-200 p-6 rounded-xl">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">FAQs</h3>
+                                <p class="text-gray-600 mb-4">Frequently asked questions about the NYSC program</p>
+                                <button class="btn-nysc">
+                                    <i class="fas fa-question-circle mr-2"></i> View FAQs
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM elements
+        const loginPage = document.getElementById('loginPage');
+        const adminDashboard = document.getElementById('adminDashboard');
+        const studentDashboard = document.getElementById('studentDashboard');
+        
+        // Login tabs
+        const studentLoginTab = document.getElementById('studentLoginTab');
+        const adminLoginTab = document.getElementById('adminLoginTab');
+        const studentLoginForm = document.getElementById('studentLoginForm');
+        const adminLoginForm = document.getElementById('adminLoginForm');
+        const studentRegisterForm = document.getElementById('studentRegisterForm');
+        const showStudentRegister = document.getElementById('showStudentRegister');
+        const showStudentLogin = document.getElementById('showStudentLogin');
+        
+        // Admin tabs
+        const adminStudentsTab = document.getElementById('adminStudentsTab');
+        const adminPostingsTab = document.getElementById('adminPostingsTab');
+        const adminStatisticsTab = document.getElementById('adminStatisticsTab');
+        const adminCallupTab = document.getElementById('adminCallupTab');
+        
+        // Student tabs
+        const studentProfileTab = document.getElementById('studentProfileTab');
+        const studentPostingTab = document.getElementById('studentPostingTab');
+        const studentCallupTab = document.getElementById('studentCallupTab');
+        const studentResourcesTab = document.getElementById('studentResourcesTab');
+        
+        // Event listeners for login tabs
+        studentLoginTab.addEventListener('click', () => {
+            studentLoginTab.classList.add('text-blue-600', 'border-blue-600');
+            studentLoginTab.classList.remove('text-gray-500');
+            adminLoginTab.classList.remove('text-blue-600', 'border-blue-600');
+            adminLoginTab.classList.add('text-gray-500');
+            studentLoginForm.classList.remove('hidden');
+            adminLoginForm.classList.add('hidden');
+            studentRegisterForm.classList.add('hidden');
+        });
+        
+        adminLoginTab.addEventListener('click', () => {
+            adminLoginTab.classList.add('text-blue-600', 'border-blue-600');
+            adminLoginTab.classList.remove('text-gray-500');
+            studentLoginTab.classList.remove('text-blue-600', 'border-blue-600');
+            studentLoginTab.classList.add('text-gray-500');
+            adminLoginForm.classList.remove('hidden');
+            studentLoginForm.classList.add('hidden');
+            studentRegisterForm.classList.add('hidden');
+        });
+        
+        showStudentRegister.addEventListener('click', (e) => {
+            e.preventDefault();
+            studentRegisterForm.classList.remove('hidden');
+            studentLoginForm.classList.add('hidden');
+            adminLoginForm.classList.add('hidden');
+        });
+        
+        showStudentLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            studentLoginForm.classList.remove('hidden');
+            studentRegisterForm.classList.add('hidden');
+            adminLoginForm.classList.add('hidden');
+        });
+        
+        // Form submissions
+        studentLoginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            loginPage.classList.add('hidden');
+            studentDashboard.classList.remove('hidden');
+        });
+        
+        adminLoginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            loginPage.classList.add('hidden');
+            adminDashboard.classList.remove('hidden');
+        });
+        
+        studentRegisterForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Registration successful! Please login with your credentials.');
+            studentRegisterForm.classList.add('hidden');
+            studentLoginForm.classList.remove('hidden');
+        });
+        
+        // Admin tab switching
+        function changeAdminTab(tabName) {
+            // Hide all tabs
+            adminStudentsTab.classList.add('hidden');
+            adminPostingsTab.classList.add('hidden');
+            adminStatisticsTab.classList.add('hidden');
+            adminCallupTab.classList.add('hidden');
+            
+            // Remove active class from all nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Show selected tab and activate nav item
+            if (tabName === 'students') {
+                adminStudentsTab.classList.remove('hidden');
+                document.querySelectorAll('.nav-item')[0].classList.add('active');
+            } else if (tabName === 'postings') {
+                adminPostingsTab.classList.remove('hidden');
+                document.querySelectorAll('.nav-item')[1].classList.add('active');
+            } else if (tabName === 'statistics') {
+                adminStatisticsTab.classList.remove('hidden');
+                document.querySelectorAll('.nav-item')[2].classList.add('active');
+            } else if (tabName === 'callup') {
+                adminCallupTab.classList.remove('hidden');
+                document.querySelectorAll('.nav-item')[3].classList.add('active');
+            }
+        }
+        
+        // Student tab switching
+        function changeStudentTab(tabName) {
+            // Hide all tabs
+            studentProfileTab.classList.add('hidden');
+            studentPostingTab.classList.add('hidden');
+            studentCallupTab.classList.add('hidden');
+            studentResourcesTab.classList.add('hidden');
+            
+            // Remove active class from all nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Show selected tab and activate nav item
+            if (tabName === 'profile') {
+                studentProfileTab.classList.remove('hidden');
+                document.querySelectorAll('.nav-item')[0].classList.add('active');
+            } else if (tabName === 'posting') {
+                studentPostingTab.classList.remove('hidden');
+                document.querySelectorAll('.nav-item')[1].classList.add('active');
+            } else if (tabName === 'callup') {
+                studentCallupTab.classList.remove('hidden');
+                document.querySelectorAll('.nav-item')[2].classList.add('active');
+            } else if (tabName === 'resources') {
+                studentResourcesTab.classList.remove('hidden');
+                document.querySelectorAll('.nav-item')[3].classList.add('active');
+            }
+        }
+        
+        // Logout function
+        function logout() {
+            adminDashboard.classList.add('hidden');
+            studentDashboard.classList.add('hidden');
+            loginPage.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
